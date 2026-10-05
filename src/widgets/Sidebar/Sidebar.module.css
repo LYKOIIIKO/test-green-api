@@ -1,0 +1,80 @@
+.Root {
+	display: flex;
+	flex-direction: column;
+	width: 360px;
+	min-width: 360px;
+	height: 100%;
+	background: var(--g-color-base-background);
+	border-right: 1px solid var(--g-color-line-generic);
+}
+
+/* На мобилке список занимает всю ширину экрана */
+@media (max-width: 768px) {
+	.Root {
+		width: 100%;
+		min-width: 100%;
+		border-right: none;
+	}
+}
+
+.Header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 16px;
+}
+
+.ChatList {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	margin: 0;
+	padding: 0 8px;
+	list-style: none;
+	overflow-y: auto;
+}
+
+.ChatItem {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 10px 8px;
+	border-radius: 12px;
+	cursor: pointer;
+}
+
+.ChatItem:hover {
+	background: var(--g-color-base-generic-hover);
+}
+
+.ChatItemActive {
+	background: var(--g-color-base-info-light);
+}
+
+.ChatItemActive:hover {
+	background: var(--g-color-base-info-light-hover);
+}
+
+.Avatar {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 44px;
+	min-width: 44px;
+	height: 44px;
+	border-radius: 50%;
+	background: linear-gradient(135deg, #2aabee, #229ed9);
+	color: var(--g-color-text-light-primary);
+	font-size: 18px;
+	font-weight: 600;
+}
+
+.ChatName {
+	flex: 1;
+	min-width: 0;
+}
+
+.Empty {
+	padding: 24px 16px;
+	text-align: center;
+}

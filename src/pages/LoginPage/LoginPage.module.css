@@ -1,0 +1,28 @@
+.Root {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 100dvh;
+	padding: 24px 16px;
+	background: var(--g-color-base-background);
+}
+
+.Form {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	width: 100%;
+	max-width: 360px;
+	padding: 32px 24px;
+	background: var(--g-color-base-float);
+	border-radius: 16px;
+	box-shadow: 0 8px 32px var(--g-color-sfx-shadow-heavy);
+}
+
+.Title {
+	text-align: center;
+}
+
+.Error {
+	text-align: center;
+}

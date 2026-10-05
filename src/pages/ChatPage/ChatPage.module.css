@@ -1,0 +1,38 @@
+.Root {
+	display: flex;
+	height: 100dvh;
+	overflow: hidden;
+	background: var(--g-color-base-background);
+}
+
+.SidebarPane {
+	display: flex;
+	flex: 0 0 360px;
+	min-width: 0;
+}
+
+/* Заглушка на десктопе, когда чат не выбран */
+.Placeholder {
+	display: flex;
+	flex: 1;
+	align-items: center;
+	justify-content: center;
+	color: var(--g-color-text-secondary);
+	background: var(--g-color-base-background);
+}
+
+/* Мобилка: одно окно за раз — либо список чатов, либо открытый чат */
+@media (max-width: 768px) {
+	.SidebarPane {
+		flex: 1;
+		min-width: 0;
+	}
+
+	.RootChatOpen .SidebarPane {
+		display: none;
+	}
+
+	.Placeholder {
+		display: none;
+	}
+}
