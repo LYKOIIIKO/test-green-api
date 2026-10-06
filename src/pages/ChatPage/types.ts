@@ -1,5 +1,5 @@
-import {TCredentials} from '@/types';
+import { TCredentials } from "@/types";
 
 export type TChatPageProps = {
-	credentials: TCredentials;
+  credentials: TCredentials;
 };

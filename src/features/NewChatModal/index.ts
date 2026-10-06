@@ -1,1 +1,1 @@
-export {NewChatModal} from './NewChatModal';
+export { NewChatModal } from "./NewChatModal";

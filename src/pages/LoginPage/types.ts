@@ -1,5 +1,5 @@
-import {TCredentials} from '@/types';
+import { TCredentials } from "@/types";
 
 export type TLoginPageProps = {
-	onLogin: (credentials: TCredentials) => void;
+  onLogin: (credentials: TCredentials) => void;
 };

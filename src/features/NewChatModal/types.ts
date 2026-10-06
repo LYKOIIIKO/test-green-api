@@ -1,9 +1,9 @@
-import {TGreenApi} from '@/api/greenApi';
-import {TChat} from '@/types';
+import { TGreenApi } from "@/api/greenApi";
+import { TChat } from "@/types";
 
 export type TNewChatModalProps = {
-	open: boolean;
-	api: TGreenApi;
-	onClose: () => void;
-	onChatCreated: (chat: TChat) => void;
+  open: boolean;
+  api: TGreenApi;
+  onClose: () => void;
+  onChatCreated: (chat: TChat) => void;
 };

@@ -1,3 +1,3 @@
 export type TMessageInputProps = {
-	onSend: (text: string) => Promise<void>;
+  onSend: (text: string) => Promise<void>;
 };
