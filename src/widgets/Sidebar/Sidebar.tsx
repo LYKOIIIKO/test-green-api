@@ -1,6 +1,6 @@
-// Components
-import { Button, Icon, Text } from '@gravity-ui/uikit';
+// Modules
 import { Plus, Power } from '@gravity-ui/icons';
+import { Button, Icon, Text } from '@gravity-ui/uikit';
 // Types
 import { TSidebarProps } from './types';
 // Styles

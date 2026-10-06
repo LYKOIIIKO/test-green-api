@@ -1,6 +1,8 @@
+// Modules
 import '@testing-library/jest-dom/vitest';
 import { cleanup, configure } from '@testing-library/react';
 import { afterEach, beforeAll, afterAll } from 'vitest';
+// Utils
 import { server } from './server';
 
 configure({ testIdAttribute: 'data-qa' });

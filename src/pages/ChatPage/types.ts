@@ -1,3 +1,4 @@
+// Types
 import { TCredentials } from '@/shared/types';
 
 export type TChatPageProps = {

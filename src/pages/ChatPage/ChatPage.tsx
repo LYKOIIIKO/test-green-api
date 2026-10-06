@@ -1,10 +1,10 @@
 // Modules
 import { useEffect, useMemo, useState } from 'react';
 // Components
-import { Sidebar } from '@/widgets/Sidebar';
-import { ChatWindow } from '@/widgets/ChatWindow';
 import { NewChatModal } from '@/features/NewChatModal';
-// Api
+import { ChatWindow } from '@/widgets/ChatWindow';
+import { Sidebar } from '@/widgets/Sidebar';
+// Utils
 import { createGreenApi } from '@/shared/api/greenApi';
 // Consts
 import { CHAT_HISTORY_POLL_INTERVAL_MS, GREEN_API_URL } from '@/shared/consts';

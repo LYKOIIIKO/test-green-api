@@ -1,8 +1,7 @@
 // Modules
-import { FormEvent, useState } from 'react';
-// Components
 import { Button, Text, TextInput } from '@gravity-ui/uikit';
-// Api
+import { FormEvent, useState } from 'react';
+// Utils
 import { createGreenApi } from '@/shared/api/greenApi';
 // Consts
 import { GREEN_API_URL } from '@/shared/consts';

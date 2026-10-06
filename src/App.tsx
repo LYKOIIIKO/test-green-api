@@ -1,15 +1,15 @@
 // Modules
-import { useState } from 'react';
 import { ThemeProvider } from '@gravity-ui/uikit';
-// Pages
-import { LoginPage } from '@/pages/LoginPage';
+import { useState } from 'react';
+// Components
 import { ChatPage } from '@/pages/ChatPage';
+import { LoginPage } from '@/pages/LoginPage';
+// Utils
+import { readStoredCredentials } from '@/shared/utils';
 // Consts
 import { LOCAL_STORAGE_CREDENTIALS_KEY } from '@/shared/consts';
 // Types
-import { TCredentials } from './types';
-// Utils
-import { readStoredCredentials } from '@/shared/utils';
+import { TCredentials } from '@/shared/types';
 
 export const App = () => {
   const [credentials, setCredentials] = useState<TCredentials | null>(readStoredCredentials);

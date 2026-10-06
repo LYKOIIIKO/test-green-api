@@ -1,6 +1,7 @@
-// Components
-import { Button, Icon, Text } from '@gravity-ui/uikit';
+// Modules
 import { ArrowLeft } from '@gravity-ui/icons';
+import { Button, Icon, Text } from '@gravity-ui/uikit';
+// Components
 import { MessageInput } from '@/features/MessageInput';
 // Types
 import { TChatWindowProps } from './types';

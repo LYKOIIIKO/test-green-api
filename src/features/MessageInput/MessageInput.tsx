@@ -1,8 +1,7 @@
 // Modules
-import { FormEvent, useState } from 'react';
-// Components
-import { Button, Icon, Text, TextInput } from '@gravity-ui/uikit';
 import { ArrowUp } from '@gravity-ui/icons';
+import { Button, Icon, Text, TextInput } from '@gravity-ui/uikit';
+import { FormEvent, useState } from 'react';
 // Types
 import { TMessageInputProps } from './types';
 // Styles

@@ -1,3 +1,4 @@
+// Types
 import { TGreenApi } from '@/shared/api/greenApi';
 import { TChat } from '@/shared/types';
 

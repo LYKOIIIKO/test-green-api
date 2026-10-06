@@ -1,10 +1,14 @@
-import { expect, it } from 'vitest';
+// Modules
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { http, HttpResponse } from 'msw';
-import { server } from '@/test/server';
-import { LOCAL_STORAGE_CREDENTIALS_KEY } from '@/shared/consts';
+import { expect, it } from 'vitest';
+// Components
 import { App } from './App';
+// Utils
+import { server } from '@/test/server';
+// Consts
+import { LOCAL_STORAGE_CREDENTIALS_KEY } from '@/shared/consts';
 
 it('вход с кредовыми — сохраняет их в localStorage и открывает чаты', async () => {
   server.use(

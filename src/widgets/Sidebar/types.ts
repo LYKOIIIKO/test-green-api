@@ -1,3 +1,4 @@
+// Types
 import { TChat } from '@/shared/types';
 
 export type TSidebarProps = {

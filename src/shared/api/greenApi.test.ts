@@ -1,5 +1,7 @@
-import { describe, expect, it } from 'vitest';
+// Modules
 import { http, HttpResponse } from 'msw';
+import { describe, expect, it } from 'vitest';
+// Utils
 import { server } from '@/test/server';
 import { createGreenApi } from './greenApi';
 

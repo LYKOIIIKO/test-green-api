@@ -1,3 +1,4 @@
+// Types
 import { TChat, TMessage } from '@/shared/types';
 
 export type TChatWindowProps = {

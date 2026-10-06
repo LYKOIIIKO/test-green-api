@@ -1,6 +1,9 @@
+// Modules
 import axios from 'axios';
-import { TMessage } from '@/shared/types';
+// Utils
 import { extractTextFromMessage, normalizeTimestamp } from '@/shared/utils';
+// Types
+import { TMessage } from '@/shared/types';
 import {
   TCheckAccountParams,
   TCheckAccountResponse,

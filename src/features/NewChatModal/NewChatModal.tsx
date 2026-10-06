@@ -1,13 +1,12 @@
 // Modules
-import { FormEvent, useState } from 'react';
-// Components
 import { Button, Modal, Text, TextInput } from '@gravity-ui/uikit';
+import { FormEvent, useState } from 'react';
+// Utils
+import { normalizePhoneDigits } from '@/shared/utils';
 // Consts
 import { PHONE_INPUT_PLACEHOLDER } from '@/shared/consts';
 // Types
 import { TNewChatModalProps } from './types';
-// Utils
-import { normalizePhoneDigits } from '@/shared/utils';
 // Styles
 import styles from './NewChatModal.module.css';
 
