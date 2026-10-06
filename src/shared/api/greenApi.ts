@@ -1,6 +1,6 @@
 import axios from "axios";
-import { TMessage } from "@/types";
-import { extractTextFromMessage, normalizeTimestamp } from "@/utils";
+import { TMessage } from "@/shared/types";
+import { extractTextFromMessage, normalizeTimestamp } from "@/shared/utils";
 import {
   TCheckAccountParams,
   TCheckAccountResponse,
@@ -82,7 +82,8 @@ export const createGreenApi = (config: TGreenApiConfig) => {
             const itemType = String(
               payload.type ?? item.type ?? "",
             ).toLowerCase();
-            const isOwn =
+            // Признак исходящего: тип из истории или отправка через API
+            const isOwnMessage =
               itemType === "outgoing" ||
               payload.sendByApi === true ||
               item.sendByApi === true;
@@ -98,19 +99,21 @@ export const createGreenApi = (config: TGreenApiConfig) => {
                 sender?.sender ??
                 chatId,
               text,
-              isOwn,
+              isOwn: isOwnMessage,
               timestamp,
             };
           })
           .filter((message): message is TMessage => message !== null);
       } catch (error) {
+        // 404/400 — у чата пока нет истории, считаем её пустой;
+        // остальные ошибки (сеть, истёкший токен) пробрасываем наверх
         if (
           axios.isAxiosError(error) &&
           (error.response?.status === 404 || error.response?.status === 400)
         ) {
           return [];
         }
-        return [];
+        throw error;
       }
     },
   };

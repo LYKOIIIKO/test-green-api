@@ -1,7 +1,7 @@
 // Consts
-import { LOCAL_STORAGE_CREDENTIALS_KEY } from "@/consts";
+import { LOCAL_STORAGE_CREDENTIALS_KEY } from "@/shared/consts";
 // Types
-import { TCredentials, TMessageTextSource } from "@/types";
+import { TCredentials, TMessageTextSource } from "@/shared/types";
 
 export const normalizeTimestamp = (value?: number): number => {
   if (typeof value !== "number" || Number.isNaN(value)) {
@@ -9,6 +9,19 @@ export const normalizeTimestamp = (value?: number): number => {
   }
 
   return value > 1000000000000 ? value : value * 1000;
+};
+
+// Приводит набранные цифры к формату 7XXXXXXXXXX:
+// 8-начальный (11 цифр) и 10-значный ввод
+export const normalizePhoneDigits = (digits: string): string => {
+  if (digits.length === 11 && digits.startsWith("8")) {
+    return `7${digits.slice(1)}`;
+  }
+  if (digits.length === 10) {
+    return `7${digits}`;
+  }
+
+  return digits;
 };
 
 export const extractTextFromMessage = (

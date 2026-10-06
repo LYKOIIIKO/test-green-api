@@ -1,5 +1,5 @@
-import { TGreenApi } from "@/api/greenApi";
-import { TChat } from "@/types";
+import { TGreenApi } from "@/shared/api/greenApi";
+import { TChat } from "@/shared/types";
 
 export type TNewChatModalProps = {
   open: boolean;

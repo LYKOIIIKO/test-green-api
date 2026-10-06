@@ -3,9 +3,9 @@ import { FormEvent, useState } from "react";
 // Components
 import { Button, Text, TextInput } from "@gravity-ui/uikit";
 // Api
-import { createGreenApi } from "@/api/greenApi";
+import { createGreenApi } from "@/shared/api/greenApi";
 // Consts
-import { GREEN_API_URL } from "@/consts";
+import { GREEN_API_URL } from "@/shared/consts";
 // Types
 import { TLoginPageProps } from "./types";
 // Styles
@@ -28,7 +28,13 @@ export const LoginPage = ({ onLogin }: TLoginPageProps) => {
         idInstance: idInstance.trim(),
         apiTokenInstance: apiTokenInstance.trim(),
       });
-      await api.getStateInstance();
+      const { stateInstance } = await api.getStateInstance();
+      if (stateInstance !== "authorized") {
+        setError(
+          "Инстанс не авторизован — отсканируйте QR-код в кабинете GREEN-API",
+        );
+        return;
+      }
       onLogin({
         idInstance: idInstance.trim(),
         apiTokenInstance: apiTokenInstance.trim(),

@@ -2,8 +2,12 @@
 import { FormEvent, useState } from "react";
 // Components
 import { Button, Modal, Text, TextInput } from "@gravity-ui/uikit";
+// Consts
+import { PHONE_INPUT_PLACEHOLDER } from "@/shared/consts";
 // Types
 import { TNewChatModalProps } from "./types";
+// Utils
+import { normalizePhoneDigits } from "@/shared/utils";
 // Styles
 import styles from "./NewChatModal.module.css";
 
@@ -18,6 +22,7 @@ export const NewChatModal = ({
   const [isLoading, setIsLoading] = useState(false);
 
   const digits = phone.replace(/\D/g, "");
+  const phoneDigits = normalizePhoneDigits(digits);
   const isEmpty = !digits.length;
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -30,7 +35,9 @@ export const NewChatModal = ({
     setError("");
     setIsLoading(true);
     try {
-      const account = await api.checkAccount({ phoneNumber: Number(digits) });
+      const account = await api.checkAccount({
+        phoneNumber: Number(phoneDigits),
+      });
       if (!account.exist) {
         setError("Контакт не найден в MAX");
         return;
@@ -52,10 +59,10 @@ export const NewChatModal = ({
       <form className={styles.Form} onSubmit={handleSubmit}>
         <Text variant="subheader-1">Новый чат</Text>
         <TextInput
-          placeholder="Номер телефона"
+          placeholder={PHONE_INPUT_PLACEHOLDER}
           type="tel"
           value={phone}
-          onUpdate={(value) => setPhone(value)}
+          onUpdate={setPhone}
           size="m"
           autoFocus
           validationState={error ? "invalid" : undefined}

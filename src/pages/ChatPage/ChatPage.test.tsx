@@ -3,7 +3,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { http, HttpResponse } from "msw";
 import { server } from "@/test/server";
-import { LOCAL_STORAGE_CREDENTIALS_KEY } from "@/consts";
+import { LOCAL_STORAGE_CREDENTIALS_KEY } from "@/shared/consts";
 import { App } from "@/App";
 
 const login = () => {
@@ -48,7 +48,7 @@ const createAndOpenChat = async (name = "Иван") => {
 
   await userEvent.click(screen.getByRole("button", { name: "Новый чат" }));
   await userEvent.type(
-    screen.getByPlaceholderText("Номер телефона"),
+    screen.getByPlaceholderText("+7 (999) 123-45-67"),
     "79991234567",
   );
   await userEvent.click(screen.getByRole("button", { name: "Создать" }));
@@ -77,7 +77,7 @@ it("создание чата: checkAccount нашёл номер — чат п�
 
   await userEvent.click(screen.getByRole("button", { name: "Новый чат" }));
   await userEvent.type(
-    screen.getByPlaceholderText("Номер телефона"),
+    screen.getByPlaceholderText("+7 (999) 123-45-67"),
     "+7 (999) 123-45-67",
   );
   await userEvent.click(screen.getByRole("button", { name: "Создать" }));
@@ -99,7 +99,7 @@ it("создание чата: checkAccount не нашёл номер — по�
 
   await userEvent.click(screen.getByRole("button", { name: "Новый чат" }));
   await userEvent.type(
-    screen.getByPlaceholderText("Номер телефона"),
+    screen.getByPlaceholderText("+7 (999) 123-45-67"),
     "70000000000",
   );
   await userEvent.click(screen.getByRole("button", { name: "Создать" }));
@@ -124,7 +124,7 @@ it("кнопка «назад» из открытого чата возвращ�
 
   await userEvent.click(screen.getByRole("button", { name: "Новый чат" }));
   await userEvent.type(
-    screen.getByPlaceholderText("Номер телефона"),
+    screen.getByPlaceholderText("+7 (999) 123-45-67"),
     "79991234567",
   );
   await userEvent.click(screen.getByRole("button", { name: "Создать" }));
@@ -149,6 +149,11 @@ it("отправка сообщения: текст появляется в ле
   let requestBody: unknown = null;
 
   server.use(
+    http.get(
+      "https://3100.api.green-api.com/waInstance3100000001/getChats/secret-token",
+      () =>
+        HttpResponse.json([{ chatId: "10000000", name: "Иван", type: "user" }]),
+    ),
     http.post(
       "https://3100.api.green-api.com/waInstance3100000001/sendMessage/secret-token",
       async ({ request }) => {
@@ -259,3 +264,20 @@ it("история активного чата обновляется опрос
     await screen.findByText("Ответ", {}, { timeout: 15000 }),
   ).toBeInTheDocument();
 }, 20000);
+
+it("ошибка загрузки чатов: getChats падает — в Sidebar показывается ошибка", async () => {
+  server.use(
+    http.get(
+      "https://3100.api.green-api.com/waInstance3100000001/getChats/secret-token",
+      () => HttpResponse.json({ message: "boom" }, { status: 500 }),
+    ),
+  );
+
+  login();
+  render(<App />);
+
+  expect(
+    await screen.findByText("Не удалось загрузить чаты"),
+  ).toBeInTheDocument();
+  expect(screen.queryByTestId("chat-list-item")).not.toBeInTheDocument();
+});

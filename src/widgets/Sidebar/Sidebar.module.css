@@ -24,6 +24,12 @@
   padding: 16px;
 }
 
+.HeaderActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .ChatList {
   display: flex;
   flex-direction: column;
