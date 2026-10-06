@@ -1,5 +1,6 @@
 import axios from "axios"
 import { TMessage } from "@/types"
+import { extractTextFromMessage, normalizeTimestamp } from "@/utils"
 import {
 	TCheckAccountParams,
 	TCheckAccountResponse,
@@ -11,41 +12,6 @@ import {
 	TSendMessageResponse,
 } from "./types"
 
-const normalizeTimestamp = (value?: number): number => {
-	if (typeof value !== "number" || Number.isNaN(value)) {
-		return 0
-	}
-
-	return value > 1_000_000_000_000 ? value : value * 1000
-}
-
-const extractTextFromMessage = (
-	payload?: {
-		messageData?: { textMessageData?: { textMessage?: string }; extendedTextMessageData?: { text?: string } }
-		textMessageData?: { textMessage?: string }
-		extendedTextMessageData?: { text?: string }
-		textMessage?: string
-		extendedTextMessage?: string
-		caption?: string
-	} | null,
-): string => {
-	if (!payload) {
-		return ""
-	}
-
-	return (
-		payload.messageData?.textMessageData?.textMessage ??
-		payload.messageData?.extendedTextMessageData?.text ??
-		payload.textMessageData?.textMessage ??
-		payload.extendedTextMessageData?.text ??
-		payload.textMessage ??
-		payload.extendedTextMessage ??
-		payload.caption ??
-		""
-	)
-}
-
-// Фабрика клиента GREEN-API: путь всегда /waInstance{id}/{method}/{token}
 export const createGreenApi = (config: TGreenApiConfig) => {
 	const { apiUrl, idInstance, apiTokenInstance } = config
 	const instance = axios.create({ baseURL: apiUrl })
@@ -56,13 +22,11 @@ export const createGreenApi = (config: TGreenApiConfig) => {
 			return data
 		},
 
-		// Проверка кредов: неверный токен ответит ошибкой, валидный — состоянием инстанса
 		getStateInstance: async (): Promise<TGetStateInstanceResponse> => {
 			const { data } = await instance.get<TGetStateInstanceResponse>(`/waInstance${idInstance}/getStateInstance/${apiTokenInstance}`)
 			return data
 		},
 
-		// Проверка номера: есть ли собеседник в MAX и какой у него chatId
 		checkAccount: async (params: TCheckAccountParams): Promise<TCheckAccountResponse> => {
 			const { data } = await instance.post<TCheckAccountResponse>(`/waInstance${idInstance}/checkAccount/${apiTokenInstance}`, params)
 			return data

@@ -1,19 +1,26 @@
 export type TCredentials = {
-	idInstance: string;
-	apiTokenInstance: string;
-};
+	idInstance: string
+	apiTokenInstance: string
+}
 
-// Чат в списке: MAX chatId — числовой id, имя берём из checkAccount (или сам chatId)
 export type TChat = {
-	chatId: string;
-	name: string;
-};
+	chatId: string
+	name: string
+}
 
-// Сообщение в ленте: timestamp в миллисекундах, isOwn — своё (справа), чужое (слева)
 export type TMessage = {
-	id: string;
-	chatId: string;
-	text: string;
-	isOwn: boolean;
-	timestamp: number;
-};
+	id: string
+	chatId: string
+	text: string
+	isOwn: boolean
+	timestamp: number
+}
+
+export type TMessageTextSource = {
+	messageData?: { textMessageData?: { textMessage?: string }; extendedTextMessageData?: { text?: string } }
+	textMessageData?: { textMessage?: string }
+	extendedTextMessageData?: { text?: string }
+	textMessage?: string
+	extendedTextMessage?: string | { text?: string }
+	caption?: string
+}

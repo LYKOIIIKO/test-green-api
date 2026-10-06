@@ -12,13 +12,11 @@ import { TLoginPageProps } from "./types"
 import styles from "./LoginPage.module.css"
 
 export const LoginPage = ({ onLogin }: TLoginPageProps) => {
-	// 1. state
 	const [idInstance, setIdInstance] = useState("")
 	const [apiTokenInstance, setApiTokenInstance] = useState("")
 	const [error, setError] = useState("")
 	const [isLoading, setIsLoading] = useState(false)
 
-	// 6. handlers: проверяем креды реальным запросом и, если всё ок, входим
 	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault()
 		setError("")
@@ -39,7 +37,6 @@ export const LoginPage = ({ onLogin }: TLoginPageProps) => {
 		}
 	}
 
-	// 7. render
 	return (
 		<div className={styles.Root}>
 			<form className={styles.Form} onSubmit={handleSubmit} data-qa="login-form">

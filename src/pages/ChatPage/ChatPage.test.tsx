@@ -6,7 +6,6 @@ import { server } from "@/test/server"
 import { LOCAL_STORAGE_CREDENTIALS_KEY } from "@/consts"
 import { App } from "@/App"
 
-// Креды уже в хранилище — приложение откроется сразу на экране чатов
 const login = () => {
 	localStorage.setItem(LOCAL_STORAGE_CREDENTIALS_KEY, JSON.stringify({ idInstance: "3100000001", apiTokenInstance: "secret-token" }))
 }
@@ -22,7 +21,6 @@ it("загрузка чатов при старте: getChats показывае
 	expect(await screen.findByText("Иван")).toBeInTheDocument()
 })
 
-// Шаг «создать чат через модалку и открыть его» повторяется в нескольких тестах
 const createAndOpenChat = async (name = "Иван") => {
 	server.use(http.post("https://3100.api.green-api.com/waInstance3100000001/checkAccount/secret-token", () => HttpResponse.json({ exist: true, chatId: "10000000", name })))
 
@@ -73,20 +71,16 @@ it("кнопка «назад» из открытого чата возвращ�
 	login()
 	render(<App />)
 
-	// создаём чат и открываем его
 	await userEvent.click(screen.getByRole("button", { name: "Новый чат" }))
 	await userEvent.type(screen.getByPlaceholderText("Номер телефона"), "79991234567")
 	await userEvent.click(screen.getByRole("button", { name: "Создать" }))
 	await userEvent.click(await screen.findByText("Иван"))
 
-	// чат открыт — видна кнопка «назад»
 	expect(await screen.findByRole("button", { name: "Назад к чатам" })).toBeInTheDocument()
 
-	// нажимаем «назад» — возвращаемся к списку, кнопка исчезает
 	await userEvent.click(screen.getByRole("button", { name: "Назад к чатам" }))
 	expect(screen.queryByRole("button", { name: "Назад к чатам" })).not.toBeInTheDocument()
 
-	// и чат можно открыть снова
 	await userEvent.click(screen.getByText("Иван"))
 	expect(await screen.findByRole("button", { name: "Назад к чатам" })).toBeInTheDocument()
 })
@@ -152,7 +146,6 @@ it("история активного чата обновляется опрос
 	server.use(
 		http.post("https://3100.api.green-api.com/waInstance3100000001/getChatHistory/secret-token", () => {
 			historyCalls += 1
-			// первый запрос при открытии чата пустой, следующий (через 10 секунд) уже с сообщением
 			if (historyCalls < 2) {
 				return HttpResponse.json([])
 			}

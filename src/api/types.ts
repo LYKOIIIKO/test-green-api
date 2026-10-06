@@ -59,7 +59,6 @@ export type TChatHistoryQuotedMessage = {
 	stanzaId?: string
 	participant?: string
 	typeMessage?: string
-	[key: string]: unknown
 }
 
 export type TChatHistoryMessageData = {
@@ -68,7 +67,6 @@ export type TChatHistoryMessageData = {
 	extendedTextMessageData?: { text?: string }
 	pollMessageData?: TChatHistoryPollMessageData
 	quotedMessage?: TChatHistoryQuotedMessage
-	[key: string]: unknown
 }
 
 export type TChatHistorySenderData = {
@@ -76,7 +74,6 @@ export type TChatHistorySenderData = {
 	chatName?: string
 	senderName?: string
 	sender?: string
-	[key: string]: unknown
 }
 
 export type TChatHistoryItem = {
@@ -112,9 +109,10 @@ export type TChatHistoryItem = {
 		timestamp?: number
 		messageData?: TChatHistoryMessageData
 		senderData?: TChatHistorySenderData
-		[key: string]: unknown
+		type?: string
+		chatId?: string
+		sendByApi?: boolean
 	}
-	[key: string]: unknown
 }
 
 export type TGetChatHistoryResponse = TChatHistoryItem[]

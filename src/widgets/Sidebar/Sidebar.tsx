@@ -7,7 +7,6 @@ import {TSidebarProps} from './types';
 import styles from './Sidebar.module.css';
 
 export const Sidebar = ({chats, activeChatId, onNewChat, onSelectChat}: TSidebarProps) => {
-	// 7. render
 	return (
 		<aside className={styles.Root} data-qa="sidebar">
 			<header className={styles.Header}>

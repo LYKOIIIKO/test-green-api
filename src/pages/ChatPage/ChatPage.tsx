@@ -15,12 +15,10 @@ import { TChatPageProps } from "./types"
 import styles from "./ChatPage.module.css"
 
 export const ChatPage = ({ credentials }: TChatPageProps) => {
-	// 1. state
 	const [chats, setChats] = useState<TChat[]>([])
 	const [activeChatId, setActiveChatId] = useState<string | null>(null)
 	const [messagesByChat, setMessagesByChat] = useState<Record<string, TMessage[]>>({})
 	const [isNewChatOpen, setIsNewChatOpen] = useState(false)
-	// 3. computed
 	const api = useMemo(
 		() =>
 			createGreenApi({
@@ -30,7 +28,6 @@ export const ChatPage = ({ credentials }: TChatPageProps) => {
 			}),
 		[credentials],
 	)
-	// Активный чат ищем по списку — если его удалили, просто покажем пустую панель
 	const activeChat = chats.find((chat) => chat.chatId === activeChatId) ?? null
 	const activeMessages = activeChatId ? (messagesByChat[activeChatId] ?? []) : []
 
@@ -58,7 +55,6 @@ export const ChatPage = ({ credentials }: TChatPageProps) => {
 		}
 	}, [api])
 
-	// 4. effects: история открытого чата — грузим сразу и обновляем опросом каждые CHAT_HISTORY_POLL_INTERVAL_MS, пока чат открыт
 	useEffect(() => {
 		if (!activeChatId) {
 			return
@@ -78,7 +74,6 @@ export const ChatPage = ({ credentials }: TChatPageProps) => {
 						const existing = prev[activeChatId] ?? []
 						const merged = [...existing]
 						for (const item of history) {
-							// Дедуп по id (серверное idMessage), fallback — текст + чат + время
 							const exists = merged.some((message) => message.id === item.id || (message.text === item.text && message.chatId === item.chatId && message.timestamp === item.timestamp))
 							if (!exists) {
 								merged.push(item)
@@ -90,7 +85,6 @@ export const ChatPage = ({ credentials }: TChatPageProps) => {
 						}
 					})
 				} catch {
-					// Ошибка сети — ленту не трогаем, повторим на следующем тике
 				}
 
 				if (!isStopped) {
@@ -106,13 +100,11 @@ export const ChatPage = ({ credentials }: TChatPageProps) => {
 		}
 	}, [activeChatId, api])
 
-	// 6. handlers: чат создан — добавляем в список и закрываем модалку
 	const handleChatCreated = (chat: TChat) => {
 		setChats((prev) => [...prev, chat])
 		setIsNewChatOpen(false)
 	}
 
-	// Отправляем текст в MAX и кладём своё сообщение в ленту только после успеха; id берём из ответа, чтобы опрос истории не задублировал сообщение
 	const handleSend = async (text: string) => {
 		if (!activeChat) {
 			return
@@ -125,11 +117,6 @@ export const ChatPage = ({ credentials }: TChatPageProps) => {
 		}))
 	}
 
-	// 7. render: на мобилке класс RootChatOpen прячет список и отдаёт экран чату целиком
-	let chatArea = <div className={styles.Placeholder} />
-	if (activeChat) {
-		chatArea = <ChatWindow chat={activeChat} messages={activeMessages} onBack={() => setActiveChatId(null)} onSend={handleSend} />
-	}
 	const rootClass = activeChat ? `${styles.Root} ${styles.RootChatOpen}` : styles.Root
 
 	return (
@@ -137,7 +124,7 @@ export const ChatPage = ({ credentials }: TChatPageProps) => {
 			<div className={styles.SidebarPane}>
 				<Sidebar chats={chats} activeChatId={activeChatId} onNewChat={() => setIsNewChatOpen(true)} onSelectChat={setActiveChatId} />
 			</div>
-			{chatArea}
+			{activeChat ? <ChatWindow chat={activeChat} messages={activeMessages} onBack={() => setActiveChatId(null)} onSend={handleSend} /> : <div className={styles.Placeholder} />}
 			<NewChatModal open={isNewChatOpen} api={api} onClose={() => setIsNewChatOpen(false)} onChatCreated={handleChatCreated} />
 		</div>
 	)

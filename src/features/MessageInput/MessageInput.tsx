@@ -9,17 +9,14 @@ import {TMessageInputProps} from './types';
 import styles from './MessageInput.module.css';
 
 export const MessageInput = ({onSend}: TMessageInputProps) => {
-	// 1. state
 	const [text, setText] = useState('');
 	const [error, setError] = useState('');
 	const [isSending, setIsSending] = useState(false);
 
-	// 2. computed
 	const trimmed = text.trim();
 	const isEmpty = !trimmed.length;
 	const shouldDisableSend = isEmpty || isSending;
 
-	// 6. handlers: отправляем и чистим поле только при успехе
 	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		if (shouldDisableSend) {
@@ -30,7 +27,6 @@ export const MessageInput = ({onSend}: TMessageInputProps) => {
 		setIsSending(true);
 		try {
 			await onSend(trimmed);
-			// Поле чистим после успеха — иначе пользователь потеряет текст
 			setText('');
 		} catch {
 			setError('Не удалось отправить сообщение');
@@ -39,7 +35,6 @@ export const MessageInput = ({onSend}: TMessageInputProps) => {
 		}
 	};
 
-	// 7. render
 	return (
 		<form className={styles.Root} onSubmit={handleSubmit} data-qa="message-input">
 			<div className={styles.Pill}>

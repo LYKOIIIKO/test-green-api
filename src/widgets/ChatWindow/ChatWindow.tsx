@@ -8,14 +8,11 @@ import {TChatWindowProps} from './types';
 import styles from './ChatWindow.module.css';
 
 export const ChatWindow = ({chat, messages, onBack, onSend}: TChatWindowProps) => {
-	// 3. computed: лента показывает только сообщения текущего чата
 	const chatMessages = messages.filter((message) => message.chatId === chat.chatId).sort((a, b) => a.timestamp - b.timestamp);
 
-	// 7. render
 	return (
 		<section className={styles.Root} data-qa="chat-window">
 			<header className={styles.Header}>
-				{/* На мобильных кнопка видна, на десктопе скрыта стилями */}
 				<Button
 					view="flat"
 					size="m"
