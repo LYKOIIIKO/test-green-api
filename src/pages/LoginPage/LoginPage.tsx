@@ -1,25 +1,25 @@
 // Modules
-import { FormEvent, useState } from "react";
+import { FormEvent, useState } from 'react';
 // Components
-import { Button, Text, TextInput } from "@gravity-ui/uikit";
+import { Button, Text, TextInput } from '@gravity-ui/uikit';
 // Api
-import { createGreenApi } from "@/shared/api/greenApi";
+import { createGreenApi } from '@/shared/api/greenApi';
 // Consts
-import { GREEN_API_URL } from "@/shared/consts";
+import { GREEN_API_URL } from '@/shared/consts';
 // Types
-import { TLoginPageProps } from "./types";
+import { TLoginPageProps } from './types';
 // Styles
-import styles from "./LoginPage.module.css";
+import styles from './LoginPage.module.css';
 
 export const LoginPage = ({ onLogin }: TLoginPageProps) => {
-  const [idInstance, setIdInstance] = useState("");
-  const [apiTokenInstance, setApiTokenInstance] = useState("");
-  const [error, setError] = useState("");
+  const [idInstance, setIdInstance] = useState('');
+  const [apiTokenInstance, setApiTokenInstance] = useState('');
+  const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setError("");
+    setError('');
     setIsLoading(true);
 
     try {
@@ -29,10 +29,8 @@ export const LoginPage = ({ onLogin }: TLoginPageProps) => {
         apiTokenInstance: apiTokenInstance.trim(),
       });
       const { stateInstance } = await api.getStateInstance();
-      if (stateInstance !== "authorized") {
-        setError(
-          "Инстанс не авторизован — отсканируйте QR-код в кабинете GREEN-API",
-        );
+      if (stateInstance !== 'authorized') {
+        setError('Инстанс не авторизован — отсканируйте QR-код в кабинете GREEN-API');
         return;
       }
       onLogin({
@@ -40,7 +38,7 @@ export const LoginPage = ({ onLogin }: TLoginPageProps) => {
         apiTokenInstance: apiTokenInstance.trim(),
       });
     } catch {
-      setError("Неверный idInstance или apiTokenInstance");
+      setError('Неверный idInstance или apiTokenInstance');
     } finally {
       setIsLoading(false);
     }
@@ -48,11 +46,7 @@ export const LoginPage = ({ onLogin }: TLoginPageProps) => {
 
   return (
     <div className={styles.Root}>
-      <form
-        className={styles.Form}
-        onSubmit={handleSubmit}
-        data-qa="login-form"
-      >
+      <form className={styles.Form} onSubmit={handleSubmit} data-qa="login-form">
         <Text variant="header-1" className={styles.Title}>
           Вход в MAX
         </Text>
@@ -78,13 +72,7 @@ export const LoginPage = ({ onLogin }: TLoginPageProps) => {
             {error}
           </Text>
         ) : null}
-        <Button
-          type="submit"
-          view="action"
-          size="m"
-          width="max"
-          loading={isLoading}
-        >
+        <Button type="submit" view="action" size="m" width="max" loading={isLoading}>
           Войти
         </Button>
       </form>

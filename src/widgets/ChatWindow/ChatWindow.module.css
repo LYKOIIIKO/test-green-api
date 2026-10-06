@@ -46,10 +46,7 @@
   overflow-y: auto;
   padding: 16px;
   background-color: var(--g-color-base-background);
-  background-image: radial-gradient(
-    var(--g-color-private-black-50) 1px,
-    transparent 1px
-  );
+  background-image: radial-gradient(var(--g-color-private-black-50) 1px, transparent 1px);
   background-size: 24px 24px;
 }
 

@@ -1,4 +1,4 @@
-import { TChat } from "@/shared/types";
+import { TChat } from '@/shared/types';
 
 export type TSidebarProps = {
   chats: TChat[];

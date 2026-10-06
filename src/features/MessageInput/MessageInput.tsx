@@ -1,16 +1,16 @@
 // Modules
-import { FormEvent, useState } from "react";
+import { FormEvent, useState } from 'react';
 // Components
-import { Button, Icon, Text, TextInput } from "@gravity-ui/uikit";
-import { ArrowUp } from "@gravity-ui/icons";
+import { Button, Icon, Text, TextInput } from '@gravity-ui/uikit';
+import { ArrowUp } from '@gravity-ui/icons';
 // Types
-import { TMessageInputProps } from "./types";
+import { TMessageInputProps } from './types';
 // Styles
-import styles from "./MessageInput.module.css";
+import styles from './MessageInput.module.css';
 
 export const MessageInput = ({ onSend }: TMessageInputProps) => {
-  const [text, setText] = useState("");
-  const [error, setError] = useState("");
+  const [text, setText] = useState('');
+  const [error, setError] = useState('');
   const [isSending, setIsSending] = useState(false);
 
   const trimmed = text.trim();
@@ -23,24 +23,20 @@ export const MessageInput = ({ onSend }: TMessageInputProps) => {
       return;
     }
 
-    setError("");
+    setError('');
     setIsSending(true);
     try {
       await onSend(trimmed);
-      setText("");
+      setText('');
     } catch {
-      setError("Не удалось отправить сообщение");
+      setError('Не удалось отправить сообщение');
     } finally {
       setIsSending(false);
     }
   };
 
   return (
-    <form
-      className={styles.Root}
-      onSubmit={handleSubmit}
-      data-qa="message-input"
-    >
+    <form className={styles.Root} onSubmit={handleSubmit} data-qa="message-input">
       <div className={styles.Pill}>
         <TextInput
           view="clear"

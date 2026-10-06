@@ -1,6 +1,6 @@
-import axios from "axios";
-import { TMessage } from "@/shared/types";
-import { extractTextFromMessage, normalizeTimestamp } from "@/shared/utils";
+import axios from 'axios';
+import { TMessage } from '@/shared/types';
+import { extractTextFromMessage, normalizeTimestamp } from '@/shared/utils';
 import {
   TCheckAccountParams,
   TCheckAccountResponse,
@@ -10,16 +10,14 @@ import {
   TGreenApiConfig,
   TSendMessageParams,
   TSendMessageResponse,
-} from "./types";
+} from './types';
 
 export const createGreenApi = (config: TGreenApiConfig) => {
   const { apiUrl, idInstance, apiTokenInstance } = config;
   const instance = axios.create({ baseURL: apiUrl });
 
   return {
-    sendMessage: async (
-      params: TSendMessageParams,
-    ): Promise<TSendMessageResponse> => {
+    sendMessage: async (params: TSendMessageParams): Promise<TSendMessageResponse> => {
       const { data } = await instance.post<TSendMessageResponse>(
         `/waInstance${idInstance}/sendMessage/${apiTokenInstance}`,
         params,
@@ -34,9 +32,7 @@ export const createGreenApi = (config: TGreenApiConfig) => {
       return data;
     },
 
-    checkAccount: async (
-      params: TCheckAccountParams,
-    ): Promise<TCheckAccountResponse> => {
+    checkAccount: async (params: TCheckAccountParams): Promise<TCheckAccountResponse> => {
       const { data } = await instance.post<TCheckAccountResponse>(
         `/waInstance${idInstance}/checkAccount/${apiTokenInstance}`,
         params,
@@ -69,35 +65,21 @@ export const createGreenApi = (config: TGreenApiConfig) => {
         return rawItems
           .map((item) => {
             const payload = item.body ?? item;
-            const text =
-              extractTextFromMessage(payload) || extractTextFromMessage(item);
+            const text = extractTextFromMessage(payload) || extractTextFromMessage(item);
             if (!text) {
               return null;
             }
 
-            const timestamp = normalizeTimestamp(
-              payload.timestamp ?? item.timestamp,
-            );
+            const timestamp = normalizeTimestamp(payload.timestamp ?? item.timestamp);
             const sender = payload.senderData ?? item.senderData;
-            const itemType = String(
-              payload.type ?? item.type ?? "",
-            ).toLowerCase();
+            const itemType = String(payload.type ?? item.type ?? '').toLowerCase();
             // Признак исходящего: тип из истории или отправка через API
             const isOwnMessage =
-              itemType === "outgoing" ||
-              payload.sendByApi === true ||
-              item.sendByApi === true;
+              itemType === 'outgoing' || payload.sendByApi === true || item.sendByApi === true;
 
             return {
-              id: String(
-                item.idMessage ?? item.id ?? `${chatId}-${timestamp}-${text}`,
-              ),
-              chatId:
-                payload.chatId ??
-                item.chatId ??
-                sender?.chatId ??
-                sender?.sender ??
-                chatId,
+              id: String(item.idMessage ?? item.id ?? `${chatId}-${timestamp}-${text}`),
+              chatId: payload.chatId ?? item.chatId ?? sender?.chatId ?? sender?.sender ?? chatId,
               text,
               isOwn: isOwnMessage,
               timestamp,

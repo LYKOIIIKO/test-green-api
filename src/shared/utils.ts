@@ -1,10 +1,10 @@
 // Consts
-import { LOCAL_STORAGE_CREDENTIALS_KEY } from "@/shared/consts";
+import { LOCAL_STORAGE_CREDENTIALS_KEY } from '@/shared/consts';
 // Types
-import { TCredentials, TMessageTextSource } from "@/shared/types";
+import { TCredentials, TMessageTextSource } from '@/shared/types';
 
 export const normalizeTimestamp = (value?: number): number => {
-  if (typeof value !== "number" || Number.isNaN(value)) {
+  if (typeof value !== 'number' || Number.isNaN(value)) {
     return 0;
   }
 
@@ -14,7 +14,7 @@ export const normalizeTimestamp = (value?: number): number => {
 // Приводит набранные цифры к формату 7XXXXXXXXXX:
 // 8-начальный (11 цифр) и 10-значный ввод
 export const normalizePhoneDigits = (digits: string): string => {
-  if (digits.length === 11 && digits.startsWith("8")) {
+  if (digits.length === 11 && digits.startsWith('8')) {
     return `7${digits.slice(1)}`;
   }
   if (digits.length === 10) {
@@ -24,15 +24,13 @@ export const normalizePhoneDigits = (digits: string): string => {
   return digits;
 };
 
-export const extractTextFromMessage = (
-  payload?: TMessageTextSource | null,
-): string => {
+export const extractTextFromMessage = (payload?: TMessageTextSource | null): string => {
   if (!payload) {
-    return "";
+    return '';
   }
 
   const extendedText =
-    typeof payload.extendedTextMessage === "string"
+    typeof payload.extendedTextMessage === 'string'
       ? payload.extendedTextMessage
       : payload.extendedTextMessage?.text;
 
@@ -44,21 +42,18 @@ export const extractTextFromMessage = (
     payload.textMessage ??
     extendedText ??
     payload.caption ??
-    ""
+    ''
   );
 };
 
 export const isCredentials = (value: unknown): value is TCredentials => {
-  if (typeof value !== "object" || value === null) {
+  if (typeof value !== 'object' || value === null) {
     return false;
   }
-  if (!("idInstance" in value) || !("apiTokenInstance" in value)) {
+  if (!('idInstance' in value) || !('apiTokenInstance' in value)) {
     return false;
   }
-  return (
-    typeof value.idInstance === "string" &&
-    typeof value.apiTokenInstance === "string"
-  );
+  return typeof value.idInstance === 'string' && typeof value.apiTokenInstance === 'string';
 };
 
 export const readStoredCredentials = (): TCredentials | null => {

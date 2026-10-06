@@ -1,9 +1,9 @@
-import "@testing-library/jest-dom/vitest";
-import { cleanup, configure } from "@testing-library/react";
-import { afterEach, beforeAll, afterAll } from "vitest";
-import { server } from "./server";
+import '@testing-library/jest-dom/vitest';
+import { cleanup, configure } from '@testing-library/react';
+import { afterEach, beforeAll, afterAll } from 'vitest';
+import { server } from './server';
 
-configure({ testIdAttribute: "data-qa" });
+configure({ testIdAttribute: 'data-qa' });
 
 window.matchMedia = ((query: string) => ({
   matches: false,
@@ -22,7 +22,7 @@ globalThis.ResizeObserver = class {
   disconnect() {}
 };
 
-beforeAll(() => server.listen({ onUnhandledRequest: "error" }));
+beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
 afterAll(() => server.close());
 
 afterEach(() => {

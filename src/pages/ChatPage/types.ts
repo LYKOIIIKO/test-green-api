@@ -1,4 +1,4 @@
-import { TCredentials } from "@/shared/types";
+import { TCredentials } from '@/shared/types';
 
 export type TChatPageProps = {
   credentials: TCredentials;

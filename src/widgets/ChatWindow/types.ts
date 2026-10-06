@@ -1,4 +1,4 @@
-import { TChat, TMessage } from "@/shared/types";
+import { TChat, TMessage } from '@/shared/types';
 
 export type TChatWindowProps = {
   chat: TChat;

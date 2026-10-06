@@ -1,54 +1,49 @@
 // Modules
-import { FormEvent, useState } from "react";
+import { FormEvent, useState } from 'react';
 // Components
-import { Button, Modal, Text, TextInput } from "@gravity-ui/uikit";
+import { Button, Modal, Text, TextInput } from '@gravity-ui/uikit';
 // Consts
-import { PHONE_INPUT_PLACEHOLDER } from "@/shared/consts";
+import { PHONE_INPUT_PLACEHOLDER } from '@/shared/consts';
 // Types
-import { TNewChatModalProps } from "./types";
+import { TNewChatModalProps } from './types';
 // Utils
-import { normalizePhoneDigits } from "@/shared/utils";
+import { normalizePhoneDigits } from '@/shared/utils';
 // Styles
-import styles from "./NewChatModal.module.css";
+import styles from './NewChatModal.module.css';
 
-export const NewChatModal = ({
-  open,
-  api,
-  onClose,
-  onChatCreated,
-}: TNewChatModalProps) => {
-  const [phone, setPhone] = useState("");
-  const [error, setError] = useState("");
+export const NewChatModal = ({ open, api, onClose, onChatCreated }: TNewChatModalProps) => {
+  const [phone, setPhone] = useState('');
+  const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const digits = phone.replace(/\D/g, "");
+  const digits = phone.replace(/\D/g, '');
   const phoneDigits = normalizePhoneDigits(digits);
   const isEmpty = !digits.length;
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (isEmpty) {
-      setError("Введите номер телефона");
+      setError('Введите номер телефона');
       return;
     }
 
-    setError("");
+    setError('');
     setIsLoading(true);
     try {
       const account = await api.checkAccount({
         phoneNumber: Number(phoneDigits),
       });
       if (!account.exist) {
-        setError("Контакт не найден в MAX");
+        setError('Контакт не найден в MAX');
         return;
       }
       onChatCreated({
         chatId: account.chatId,
         name: account.name ?? account.chatId,
       });
-      setPhone("");
+      setPhone('');
     } catch {
-      setError("Не удалось проверить номер. Попробуйте ещё раз");
+      setError('Не удалось проверить номер. Попробуйте ещё раз');
     } finally {
       setIsLoading(false);
     }
@@ -65,7 +60,7 @@ export const NewChatModal = ({
           onUpdate={setPhone}
           size="m"
           autoFocus
-          validationState={error ? "invalid" : undefined}
+          validationState={error ? 'invalid' : undefined}
           errorMessage={error || undefined}
           qa="new-chat-phone-input"
         />

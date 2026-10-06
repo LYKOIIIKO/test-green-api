@@ -77,7 +77,7 @@ export type TChatHistorySenderData = {
 };
 
 export type TChatHistoryItem = {
-  type?: "incoming" | "outgoing" | string;
+  type?: 'incoming' | 'outgoing' | string;
   idMessage?: string;
   id?: string;
   chatId?: string;
